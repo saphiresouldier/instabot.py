@@ -633,6 +633,7 @@ class InstaBot:
         current_user = 'abcd'
         current_id = '12345'
         checking = True
+        trys = 0
         self.media_on_feed = []
         if len(self.media_on_feed) < 1:
             self.get_media_id_recent_feed()
@@ -641,7 +642,7 @@ class InstaBot:
             current_id=self.media_on_feed[chooser]["owner"]["id"]
             current_user=self.media_on_feed[chooser]["owner"]["username"]
             
-            while checking:
+            while checking && (trys < 15):
                 for wluser in self.unfollow_whitelist:
                     if wluser == current_user:
                         chooser = random.randint(0,len(self.media_on_feed)-1)
@@ -649,6 +650,10 @@ class InstaBot:
                         current_user=self.media_on_feed[chooser]["owner"]["username"]
                         log_string = ("found whitelist user, starting search again")
                         self.write_log(log_string)
+                        trys++
+                        if trys == 14:
+                            log_string = ("only found whitelist users, aborting unfollow attempt for now")
+                            self.write_log(log_string)
                         break;
                 else:
                     checking = False
