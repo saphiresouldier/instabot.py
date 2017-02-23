@@ -650,7 +650,7 @@ class InstaBot:
                         current_user=self.media_on_feed[chooser]["owner"]["username"]
                         log_string = ("found whitelist user, starting search again")
                         self.write_log(log_string)
-                        trys++
+                        trys = trys + 1
                         if trys == 14:
                             log_string = ("only found whitelist users, aborting unfollow attempt for now")
                             self.write_log(log_string)
